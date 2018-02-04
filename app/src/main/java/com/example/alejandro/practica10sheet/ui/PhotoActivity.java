@@ -2,11 +2,14 @@ package com.example.alejandro.practica10sheet.ui;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatTextView;
 import android.view.View;
 import android.widget.ImageView;
+
 import com.example.alejandro.practica10sheet.R;
 import com.example.alejandro.practica10sheet.data.Alumno;
 import com.squareup.picasso.Picasso;
+
 import activitystarter.ActivityStarter;
 import activitystarter.Arg;
 import activitystarter.MakeActivityStarter;
@@ -17,13 +20,12 @@ public class PhotoActivity extends AppCompatActivity {
     @Arg //2º paso:  Es un argumneto del metodo para iniciar la actividad
     Alumno alumno;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_photo);
         ActivityStarter.fill(this, savedInstanceState); //3er Paso: Para que me rellene los campos automaticamente
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-        setContentView(R.layout.activity_photo);
         initView();
     }
 
@@ -36,7 +38,9 @@ public class PhotoActivity extends AppCompatActivity {
     private void initView() {
         ImageView imgPhotoAcivity = findViewById(R.id.imgPhotoAcivity);
         Picasso.with(this).load(alumno.getUrlPhoto()).into(imgPhotoAcivity);
+        AppCompatTextView lblBottomName = findViewById(R.id.lblBottomName);
 
+        lblBottomName.setText(alumno.getNombre());
     }
 
 }
