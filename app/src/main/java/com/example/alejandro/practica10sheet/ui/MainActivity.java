@@ -1,10 +1,12 @@
 package com.example.alejandro.practica10sheet.ui;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.ClipData;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
@@ -17,10 +19,13 @@ import com.example.alejandro.practica10sheet.ui.fragments.InfoFragment;
 import com.example.alejandro.practica10sheet.ui.fragments.PhotoFragment;
 import com.example.alejandro.practica10sheet.viewModels.MainActivityViewModel;
 
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
 
     public static String EXTRA_ALUNNO_EDITED = "EXTRA_ALUNNO_EDITED";
     private FrameLayout flHuecoFragments;
+    FragmentManager gestorFragmentos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void initView() {
         BottomNavigationView navigation = findViewById(R.id.navigation);
-        FragmentManager gestorFragmentos = getSupportFragmentManager();
+        gestorFragmentos = getSupportFragmentManager();
 
         flHuecoFragments = findViewById(R.id.flHuecoFragments);
 
@@ -40,9 +45,9 @@ public class MainActivity extends AppCompatActivity {
         navigation.setOnNavigationItemSelectedListener(this::actionAfterSelected);
 
         //Para que siempre este cargado un fragmento
-        //if (gestorFragmentos.findFragmentById(flHuecoFragments.getId()) == null) {
+        if (gestorFragmentos.findFragmentById(flHuecoFragments.getId()) == null) {
             getSupportFragmentManager().beginTransaction().replace(flHuecoFragments.getId(), DataFragment.newInstance()).commitNow();
-       // }
+       }
     }
 
     private boolean actionAfterSelected(MenuItem item) {
@@ -70,12 +75,5 @@ public class MainActivity extends AppCompatActivity {
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
-    }
-
-    //CON ESTO VUELVO A RECARGAR LOS DATOS
-    @Override
-    protected void onResumeFragments() {
-        getSupportFragmentManager().beginTransaction().replace(flHuecoFragments.getId(), DataFragment.newInstance()).commitNow();
-        super.onResumeFragments();
     }
 }
