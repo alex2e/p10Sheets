@@ -1,33 +1,41 @@
 package com.example.alejandro.practica10sheet.ui.fragments;
 
-import android.content.Context;
-import android.net.Uri;
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
+import android.widget.Button;
+import android.widget.TextView;
 import com.example.alejandro.practica10sheet.R;
+import com.example.alejandro.practica10sheet.data.Alumno;
+import com.example.alejandro.practica10sheet.ui.EditActivityStarter;
+import com.example.alejandro.practica10sheet.viewModels.MainActivityViewModel;
 
 public class DataFragment extends Fragment {
 
-    private OnFragmentInteractionListener mListener;
+    private Alumno alumno;
+    MainActivityViewModel viewModel;
 
-    //region [Constructores]
     public DataFragment() {
-
     }
 
     public static DataFragment newInstance() {
         return new DataFragment();
     }
-    //endregion
 
-    //region [Ciclo de vida de la Actividad]
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        viewModel = ViewModelProviders.of(getActivity()).get(MainActivityViewModel.class);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        initView(getView());
     }
 
     @Override
@@ -35,33 +43,20 @@ public class DataFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_data, container, false);
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
+    private void initView(View view) {
+        TextView lblName = view.findViewById(R.id.lblName);
+        TextView lblNumber = view.findViewById(R.id.lblNumber);
+        Button btnEdit = view.findViewById(R.id.btnEdit);
+
+        alumno = viewModel.getAlumno();
+
+        lblName.setText(alumno.getNombre());
+        lblNumber.setText(String.valueOf(alumno.getNumero()));
+
+        btnEdit.setOnClickListener(v -> lanzarActividad());
     }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
+    private void lanzarActividad() {
+        EditActivityStarter.startForResult(getActivity(),alumno,1);
     }
-    //endregion
-
-    //region [Otros Métodos]
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
-    public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(Uri uri);
-    }
-    //endregion
 }

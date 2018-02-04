@@ -33,4 +33,13 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    //ViewModels
+    compile "android.arch.lifecycle:extensions:1.1.0"
+    //Activity Starter
+    compile 'com.marcinmoskala.activitystarter:activitystarter:1.11-beta'
+    annotationProcessor 'com.marcinmoskala.activitystarter:activitystarter-compiler:1.11-beta'
+    //Bottom Sheet
+    compile 'com.android.support:design:26.1.0'
+    //Libreria Picasso
+    compile 'com.squareup.picasso:picasso:2.5.2'
 }

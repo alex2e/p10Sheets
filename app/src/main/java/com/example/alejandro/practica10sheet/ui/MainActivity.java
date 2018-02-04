@@ -1,5 +1,7 @@
 package com.example.alejandro.practica10sheet.ui;
 
+import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
@@ -7,14 +9,17 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
+
 import com.example.alejandro.practica10sheet.R;
+import com.example.alejandro.practica10sheet.data.Alumno;
 import com.example.alejandro.practica10sheet.ui.fragments.DataFragment;
 import com.example.alejandro.practica10sheet.ui.fragments.InfoFragment;
 import com.example.alejandro.practica10sheet.ui.fragments.PhotoFragment;
+import com.example.alejandro.practica10sheet.viewModels.MainActivityViewModel;
 
-public class MainActivity extends AppCompatActivity implements DataFragment.OnFragmentInteractionListener, InfoFragment.OnFragmentInteractionListener, PhotoFragment.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity {
 
-    //Class Atributtes
+    public static String EXTRA_ALUNNO_EDITED = "EXTRA_ALUNNO_EDITED";
     private FrameLayout flHuecoFragments;
 
     @Override
@@ -35,9 +40,9 @@ public class MainActivity extends AppCompatActivity implements DataFragment.OnFr
         navigation.setOnNavigationItemSelectedListener(this::actionAfterSelected);
 
         //Para que siempre este cargado un fragmento
-        if (gestorFragmentos.findFragmentById(flHuecoFragments.getId()) == null) {
+        //if (gestorFragmentos.findFragmentById(flHuecoFragments.getId()) == null) {
             getSupportFragmentManager().beginTransaction().replace(flHuecoFragments.getId(), DataFragment.newInstance()).commitNow();
-        }
+       // }
     }
 
     private boolean actionAfterSelected(MenuItem item) {
@@ -55,9 +60,22 @@ public class MainActivity extends AppCompatActivity implements DataFragment.OnFr
         return true;
     }
 
-
     @Override
-    public void onFragmentInteraction(Uri uri) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK && requestCode == 1) {
+            if (data.hasExtra(EXTRA_ALUNNO_EDITED)) {
+                Alumno alumno = data.getParcelableExtra(EXTRA_ALUNNO_EDITED);
+                ViewModelProviders.of(this).get(MainActivityViewModel.class).setAlumno(alumno);
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
 
+    //CON ESTO VUELVO A RECARGAR LOS DATOS
+    @Override
+    protected void onResumeFragments() {
+        getSupportFragmentManager().beginTransaction().replace(flHuecoFragments.getId(), DataFragment.newInstance()).commitNow();
+        super.onResumeFragments();
     }
 }
