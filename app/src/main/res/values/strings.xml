@@ -11,4 +11,5 @@
     <string name="fragment_bottomsheet_options">Options</string>
     <string name="fragment_bottomsheet_mnuCall">Call</string>
     <string name="fragment_bottomsheet_mnuSendMessage">Guardar</string>
+    <string name="title_activity_Photo">Photo</string>
 </resources>

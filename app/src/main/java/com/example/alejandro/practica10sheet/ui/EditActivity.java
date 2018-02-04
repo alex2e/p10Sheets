@@ -19,10 +19,8 @@ public class EditActivity extends AppCompatActivity implements MenuBottomSheetDi
 
     @Arg //2º paso:  Es un argumneto del metodo para iniciar la actividad
     public Alumno alumno;
-    private Button btnOpciones;
     private TextInputEditText txtImputName;
     private TextInputEditText txtInputNumer;
-    private final String TAG_BOTTOMSHEET_FRAGMENT = "TAG_BOTTOMSHEET_FRAGMENT";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +36,8 @@ public class EditActivity extends AppCompatActivity implements MenuBottomSheetDi
         ActivityStarter.save(this, outState);//4º Paso: Cualquier atributo que tenga @arg se restaura solo
     }
 
-    private void showBottomSheetDialogFragment(Alumno alumnno) {
+    private void showBottomSheetDialogFragment(Alumno alumno) {
+        String TAG_BOTTOMSHEET_FRAGMENT = "TAG_BOTTOMSHEET_FRAGMENT";
         alumno.setNombre(txtImputName.getText().toString());
         alumno.setNumero(txtInputNumer.getText().toString());
 
@@ -47,7 +46,7 @@ public class EditActivity extends AppCompatActivity implements MenuBottomSheetDi
     }
 
     private void initView() {
-        btnOpciones = findViewById(R.id.btnOpciones);
+        Button btnOpciones = findViewById(R.id.btnOpciones);
         txtImputName = findViewById(R.id.txtImputName);
         txtInputNumer = findViewById(R.id.txtInputNumer);
 
